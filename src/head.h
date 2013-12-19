@@ -7,14 +7,14 @@
 #define Random(n) rand()%n
 
 typedef struct tag_ch_fre {
-	char a;
-	char b;
-	int fre;
+    char a;
+    char b;
+    int fre;
 } ch_fre;
 
 typedef struct tag_cf_list {
-	ch_fre val;
-	tag_cf_list* next;
+    ch_fre val;
+    tag_cf_list* next;
 } cf_list;
 
 void test();
