@@ -73,7 +73,6 @@ class Sentence(object):
         else:
             raise ValueError('down_to_zero must be True, False, None, or a random.Random object')
 
-        self._stable_counts = SentenceCount()
         self._mutable_counts = SentenceCount()
 
         for character in self._lang.special_characters:
@@ -81,8 +80,8 @@ class Sentence(object):
 
         self._prev_mutable_counts = self._mutable_counts.clone()
 
-        map(lambda c: self._pre_process(c), self._lang.tokenize(self._user_text))
-        map(lambda c: self._pre_process(c), self._lang.tokenize(self._lang.single_use_template_text))
+        map(lambda c: self._inc_character(c), self._lang.tokenize(self._user_text))
+        map(lambda c: self._inc_character(c), self._lang.tokenize(self._lang.single_use_template_text))
 
     def is_finished(self):
         """
@@ -106,58 +105,16 @@ class Sentence(object):
         """
         :rtype: SentenceCount
         """
-        counts = self._stable_counts.clone()
-        counts.update(self._mutable_counts)
-        return counts
-
-    @property
-    def stable_counts(self):
-        """
-        :rtype: SentenceCount
-        """
-        return self._stable_counts
-
-    @property
-    def mutable_counts(self):
-        """
-        :rtype: SentenceCount
-        """
         return self._mutable_counts
-
-    def _pre_process(self, character):
-        """
-        :type character: string
-        """
-        if self._lang.is_special_character(character):
-            self._inc_character(character)
-        else:
-            if character in self._stable_counts:
-                old_count = self._stable_counts[character]
-                self._stable_counts[character] += 1
-                self._mutable_counts.total += 1
-                self._replace_number(old_count, self._stable_counts[character])
-            else:
-                self._stable_counts[character] = 2
-                self._mutable_counts.total += 2
-                self._replace_number(0, self._stable_counts[character])
-                map(lambda c: self._inc_character(c), self._repeated_template_characters)
-
-    def _replace_number(self, from_number, to_number):
-        """
-        :type from_number: int
-        :type to_number: int
-        """
-        if from_number != to_number:
-            self._sub_number(from_number)
-            self._add_number(to_number)
 
     def _inc_character(self, character):
         """
         :type character: string
         """
-        assert self._mutable_counts[character] >= 0, 'character count is negative'
-        if self._mutable_counts[character] == 0:
-            self._mutable_counts[character] += 2
+        character_count = self._mutable_counts.get(character, 0)
+        assert character_count >= 0, 'character count is negative'
+        if character_count == 0:
+            self._mutable_counts[character] = 2
             self._mutable_counts.total += 2
             map(lambda c: self._inc_character(c), self._repeated_template_characters)
         else:
@@ -177,19 +134,16 @@ class Sentence(object):
             self._mutable_counts[character] -= 1
             self._mutable_counts.total -= 1
 
-    def _add_number(self, number):
+    def _replace_number(self, from_number, to_number):
         """
-        :type number: int
+        :type from_number: int
+        :type to_number: int
         """
-        if number > 0:
-            map(lambda c: self._inc_character(c), self._lang.tokenize(self._lang.translate_number(number)))
-
-    def _sub_number(self, number):
-        """
-        :type number: int
-        """
-        if number > 0:
-            map(lambda c: self._dec_character(c), self._lang.tokenize(self._lang.translate_number(number)))
+        if from_number != to_number:
+            if from_number > 0:
+                map(lambda c: self._dec_character(c), self._lang.tokenize(self._lang.translate_number(from_number)))
+            if to_number > 0:
+                map(lambda c: self._inc_character(c), self._lang.tokenize(self._lang.translate_number(to_number)))
 
 
 class SentenceGenerator(object):
@@ -219,13 +173,11 @@ class SentenceGenerator(object):
                 print('==================== ATTEMPT {} ===================='.format(attempt + 1), file=sys.stderr)
 
             sentence = Sentence(language, user_text=user_text, down_to_zero=down_to_zero)
-            if verbose:
-                print('[{}:STB]'.format(attempt + 1), unicode(sentence.stable_counts), file=sys.stderr)
 
             iteration = 0
             while True:
                 if verbose:
-                    print('[{}:{:3d}]'.format(attempt + 1, iteration), unicode(sentence.mutable_counts),
+                    print('[{}:{:3d}]'.format(attempt + 1, iteration), unicode(sentence.counts),
                           file=sys.stderr)
 
                 if sentence.is_finished():
