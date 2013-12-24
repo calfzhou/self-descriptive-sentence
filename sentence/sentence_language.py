@@ -24,13 +24,6 @@ class SentenceLanguage(object):
         """
         return filter(self.is_countable_character, text or '')
 
-    def is_special_character(self, character):
-        """
-        :type character: iterable
-        :rtype: bool
-        """
-        raise NotImplementedError()
-
     @property
     def special_characters(self):
         """
@@ -64,20 +57,18 @@ class SentenceLanguage(object):
         }
         return self._sentence_template.format(**params)
 
-    @property
-    def single_use_template_text(self):
+    def get_single_use_template_text(self, user_text=''):
         """
         :rtype: string
         """
         params = {
-            self._USER_TEXT_FIELD_NAME: '',
+            self._USER_TEXT_FIELD_NAME: user_text or '',
             self._TOTAL_FIELD_NAME: '',
             self._COUNTING_FIELD_NAME: '',
         }
         return self._sentence_template.format(**params)
 
-    @property
-    def repeated_template_text(self):
+    def get_repeated_template_text(self):
         """
         :rtype: string
         """

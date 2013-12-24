@@ -59,8 +59,7 @@ class Sentence(object):
                              None to use the module level random.
         """
         self._lang = language
-        self._user_text = user_text
-        self._repeated_template_characters = self._lang.tokenize(self._lang.repeated_template_text)
+        self._repeated_template_characters = self._lang.tokenize(self._lang.get_repeated_template_text())
 
         if down_to_zero is None:
             self._need_down_to_zero = lambda: random.randint(0, 1) == 0
@@ -76,11 +75,14 @@ class Sentence(object):
         self._mutable_counts = SentenceCount()
         self._prev_mutable_counts = SentenceCount()
 
+        # These zeros are not necessary, just used as placeholders.
         for character in self._lang.special_characters:
             self._mutable_counts[character] = 0
+        for character in self._repeated_template_characters:
+            self._mutable_counts[character] = 0
 
-        map(lambda c: self._inc_character(c), self._lang.tokenize(self._user_text))
-        map(lambda c: self._inc_character(c), self._lang.tokenize(self._lang.single_use_template_text))
+        for character in self._lang.tokenize(self._lang.get_single_use_template_text(user_text)):
+            self._inc_character(character)
 
     def is_finished(self):
         """

@@ -23,8 +23,6 @@ class Chinese(SentenceLanguage):
         )
         """:type: string"""
 
-        self._set_of_special_chars = set()
-        """:type: set[string]"""
         self._list_of_special_chars = []
         """:type: list[string]"""
 
@@ -33,17 +31,12 @@ class Chinese(SentenceLanguage):
             self._add_special_char(character)
         for character in self.CHINESE_UNITS:
             self._add_special_char(character)
-        for character in self.CHINESE_GROUP_UNITS:
-            self._add_special_char(character)
-        for character in self.tokenize(self.repeated_template_text):
-            self._add_special_char(character)
 
     def _add_special_char(self, character):
         """
         :rtype character: string
         """
-        if self.is_countable_character(character) and character not in self._set_of_special_chars:
-            self._set_of_special_chars.add(character)
+        if self.is_countable_character(character):
             self._list_of_special_chars.append(character)
 
     def is_countable_character(self, character):
@@ -52,13 +45,6 @@ class Chinese(SentenceLanguage):
         :rtype: bool
         """
         return ('\u4e00' <= character <= '\u9fff') if character else False
-
-    def is_special_character(self, character):
-        """
-        :type character: string
-        :rtype: bool
-        """
-        return character in self._set_of_special_chars
 
     @property
     def special_characters(self):
