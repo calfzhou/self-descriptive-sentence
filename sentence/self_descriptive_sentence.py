@@ -4,6 +4,7 @@ from __future__ import unicode_literals, print_function
 import argparse
 import sys
 import chinese
+import number
 from sentence_generator import SentenceGenerator
 
 __version__ = '0.1'
@@ -17,6 +18,9 @@ def main():
         version=__version__
     )
     parser.add_argument('text', nargs='?', default='', help='a text will be included in the sentence')
+    parser.add_argument('-l', '--language', default='chinese', choices=('chinese', 'number'),
+                        help='choose a language to generate sentence')
+
     parser.add_argument('-a', '--attempts', type=int, default=SentenceGenerator.MAX_ATTEMPTS,
                         help='the maximum number of attempts')
     parser.add_argument('-i', '--iterations', type=int, default=SentenceGenerator.MAX_ITERATIONS,
@@ -43,7 +47,13 @@ def main():
     else:
         down_to_zero = args.seed
 
-    language = chinese.Chinese()
+    if args.language == 'chinese':
+        language = chinese.Chinese()
+    elif args.language == 'number':
+        language = number.Number()
+    else:
+        raise ValueError('unknown language {}'.format(args.language))
+
     counts = SentenceGenerator.generate(language, user_text=args.text,
                                         attempts=args.attempts, iterations=args.iterations,
                                         down_to_zero=down_to_zero, verbose=not args.no_verbose)

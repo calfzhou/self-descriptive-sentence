@@ -46,8 +46,9 @@ Program Usage
 -------------
 
 ```
-usage: self_descriptive_sentence.py [-h] [-v] [-a ATTEMPTS] [-i ITERATIONS]
-                                    [-V] [-0 | -1 | -s SEED]
+usage: self_descriptive_sentence.py [-h] [-v] [-l {chinese,number}]
+                                    [-a ATTEMPTS] [-i ITERATIONS] [-V]
+                                    [-0 | -1 | -s SEED]
                                     [text]
 
 Self-Descriptive Sentence Generator
@@ -58,6 +59,9 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  -l {chinese,number}, --language {chinese,number}
+                        choose a language to generate sentence (default:
+                        chinese)
   -a ATTEMPTS, --attempts ATTEMPTS
                         the maximum number of attempts (default: 20)
   -i ITERATIONS, --iterations ITERATIONS
@@ -83,3 +87,11 @@ Example
 `python self_descriptive_sentence.py -V 我写的这句话`:
 
 我写的这句话一共有七十四个字，二个“我”，二个“写”，二个“的”，二个“这”，二个“句”，二个“话”，二个“共”，二个“有”，二个“字”，五个“一”，十三个“二”，三个“三”，四个“四”，二个“五”，二个“七”，一个“八”，一个“九”，四个“十”，二十一个“个”。
+
+`python self_descriptive_sentence.py -V -l number 1`:
+
+1 employs 11 digits, 4 1's, 3 2's, 2 3's, 2 4's.
+
+`python self_descriptive_sentence.py -V -l number 123`:
+
+123 employs 17 digits, 4 1's, 4 2's, 2 3's, 4 4's, 1 6's, 2 7's.
