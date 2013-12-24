@@ -74,11 +74,10 @@ class Sentence(object):
             raise ValueError('down_to_zero must be True, False, None, or a random.Random object')
 
         self._mutable_counts = SentenceCount()
+        self._prev_mutable_counts = SentenceCount()
 
         for character in self._lang.special_characters:
             self._mutable_counts[character] = 0
-
-        self._prev_mutable_counts = self._mutable_counts.clone()
 
         map(lambda c: self._inc_character(c), self._lang.tokenize(self._user_text))
         map(lambda c: self._inc_character(c), self._lang.tokenize(self._lang.single_use_template_text))
