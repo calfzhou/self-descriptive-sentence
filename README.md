@@ -42,3 +42,44 @@ A Chinese self-counting sentence demo:
     一个“六”；二个“七”；二个“中”；二个“其”；二个“共”；二个“这”；二个“句”；五个“一”；二十二个“个”；三个“有”；
     一个“九”；三个“五”。
 
+Program Usage
+-------------
+
+```
+usage: self_descriptive_sentence.py [-h] [-v] [-a ATTEMPTS] [-i ITERATIONS]
+                                    [-V] [-0 | -1 | -s SEED]
+                                    [text]
+
+Self-Descriptive Sentence Generator
+
+positional arguments:
+  text                  a text will be included in the sentence (default: )
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
+  -a ATTEMPTS, --attempts ATTEMPTS
+                        the maximum number of attempts (default: 20)
+  -i ITERATIONS, --iterations ITERATIONS
+                        the maximum number of iterations in each attempt
+                        (default: 300)
+  -V, --no-verbose      disable debug messages (default: False)
+  -0, --down-to-zero    prefer zero when performing a decrease operation on a
+                        count=2 character (default: False)
+  -1, --down-to-one     prefer one when performing a decrease operation on a
+                        count=2 character (default: False)
+  -s SEED, --seed SEED  use a seeded Random object to randomly choose between
+                        zero and one when performing a decrease operation on a
+                        count=2 character (default: None)
+```
+
+Example
+-------
+
+`python self_descriptive_sentence.py -V`:
+
+一共有四十八个字，二个“共”，二个“有”，二个“字”，三个“一”，七个“二”，四个“三”，三个“四”，二个“五”，二个“七”，二个“八”，一个“九”，三个“十”，十五个“个”。
+
+`python self_descriptive_sentence.py -V 我写的这句话`:
+
+我写的这句话一共有七十四个字，二个“我”，二个“写”，二个“的”，二个“这”，二个“句”，二个“话”，二个“共”，二个“有”，二个“字”，五个“一”，十三个“二”，三个“三”，四个“四”，二个“五”，二个“七”，一个“八”，一个“九”，四个“十”，二十一个“个”。
