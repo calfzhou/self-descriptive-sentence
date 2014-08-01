@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import abc
 
 
 class SentenceLanguage(object):
@@ -9,12 +10,13 @@ class SentenceLanguage(object):
     _CHARACTER_FIELD_NAME = 'char'
     _COUNT_FIELD_NAME = 'cnt'
 
+    @abc.abstractmethod
     def is_countable_character(self, character):
         """
         :type character: unicode
         :rtype: bool
         """
-        raise NotImplementedError()
+        pass
 
     def tokenize(self, text):
         """
@@ -23,19 +25,20 @@ class SentenceLanguage(object):
         """
         return filter(self.is_countable_character, text or '')
 
-    @property
+    @abc.abstractproperty
     def special_characters(self):
         """
         :rtype: collections.Iterable[unicode]
         """
-        raise NotImplementedError()
+        pass
 
+    @abc.abstractmethod
     def translate_number(self, number):
         """
         :type number: int|long
         :rtype: string
         """
-        raise NotImplementedError()
+        pass
 
     def compose_sentence(self, total_count, character_counts, user_text=None):
         """
@@ -77,19 +80,19 @@ class SentenceLanguage(object):
         }
         return self._character_count_template.format(**params)
 
-    @property
+    @abc.abstractproperty
     def _sentence_template(self):
         """
         :rtype: unicode
         """
-        raise NotImplementedError()
+        pass
 
-    @property
+    @abc.abstractproperty
     def _character_count_template(self):
         """
         :rtype: unicode
         """
-        raise NotImplementedError()
+        pass
 
     def _compose_character_count(self, character, count):
         """
