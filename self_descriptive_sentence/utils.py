@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 def enumerate_digits(number):
     """
-    :type number: int or long
+    :type number: int | long
     :rtype: collections.Iterable[int, int]
     """
     position = 0

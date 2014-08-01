@@ -51,14 +51,14 @@ class Sentence(object):
     def __init__(self, language, user_text='', down_to_zero=None):
         """
         :type language: sentence_language.SentenceLanguage
-        :type user_text: string
-        :type down_to_zero: None|bool|random.Random
+        :type user_text: unicode
+        :type down_to_zero: None | bool | random.Random
         :param down_to_zero: True to force decrease 2 to 0; False to force decrease 2 to 1;
                              A Random object to decrease 2 to 0 or 1 randomly.
                              None to use the module level random.
         """
         self._lang = language
-        self._repeated_template_characters = self._lang.tokenize(self._lang.get_repeated_template_text())
+        self._repeated_template_characters = list(self._lang.tokenize(self._lang.get_repeated_template_text()))
 
         if down_to_zero is None:
             self._need_down_to_zero = lambda: random.randint(0, 1) == 0

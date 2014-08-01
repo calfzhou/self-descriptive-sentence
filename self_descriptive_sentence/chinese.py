@@ -34,17 +34,17 @@ class Chinese(SentenceLanguage):
 
     def _add_special_char(self, character):
         """
-        :rtype character: string
+        :rtype character: unicode
         """
         if self.is_countable_character(character):
             self._list_of_special_chars.append(character)
 
     def is_countable_character(self, character):
         """
-        :type character: string
+        :type character: unicode
         :rtype: bool
         """
-        return ('\u4e00' <= character <= '\u9fff') if character else False
+        return character and ('\u4e00' <= character <= '\u9fff')
 
     @property
     def special_characters(self):
@@ -55,10 +55,10 @@ class Chinese(SentenceLanguage):
 
     def translate_number(self, number):
         """
-        :type number: int|long
+        :type number: int | long
         :rtype: unicode
         """
-        if not isinstance(number, int) and not isinstance(number, long):
+        if not isinstance(number, (int, long)):
             raise ValueError('number must be integer')
 
         if number == 0:
