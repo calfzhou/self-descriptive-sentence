@@ -17,14 +17,14 @@ class Chinese(SentenceLanguage):
         self.__sentence_template = '{{{user}}}一共有{{{total}}}个字{{{counting}}}。'.format(
             user=self._USER_TEXT_FIELD_NAME, total=self._TOTAL_FIELD_NAME, counting=self._COUNTING_FIELD_NAME
         )
-        """:type: string"""
+        """:type: unicode"""
         self.__character_count_template = '，{{{count}}}个“{{{char}}}”'.format(
             count=self._COUNT_FIELD_NAME, char=self._CHARACTER_FIELD_NAME
         )
-        """:type: string"""
+        """:type: unicode"""
 
         self._list_of_special_chars = []
-        """:type: list[string]"""
+        """:type: list[unicode]"""
 
         self._add_special_char(self.CHINESE_ZERO)
         for character in self.CHINESE_DIGITS:
@@ -49,14 +49,14 @@ class Chinese(SentenceLanguage):
     @property
     def special_characters(self):
         """
-        :rtype: collections.Iterable[string]
+        :rtype: collections.Iterable[unicode]
         """
         return self._list_of_special_chars
 
     def translate_number(self, number):
         """
         :type number: int|long
-        :rtype: string
+        :rtype: unicode
         """
         if not isinstance(number, int) and not isinstance(number, long):
             raise ValueError('number must be integer')
@@ -100,13 +100,13 @@ class Chinese(SentenceLanguage):
     @property
     def _sentence_template(self):
         """
-        :rtype: string
+        :rtype: unicode
         """
         return self.__sentence_template
 
     @property
     def _character_count_template(self):
         """
-        :rtype: string
+        :rtype: unicode
         """
         return self.__character_count_template

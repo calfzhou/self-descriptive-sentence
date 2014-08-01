@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import codecs
 from os import path
 import unittest
 from self_descriptive_sentence.chinese import Chinese
@@ -37,9 +38,8 @@ class TestChineseNumber(unittest.TestCase):
     @classmethod
     def add_data_driven_tests(cls):
         number_data_path = path.join(cls.RESOURCES_PATH, 'number_data.txt')
-        with open(number_data_path) as data_file:
+        with codecs.open(number_data_path, encoding='utf-8') as data_file:
             for line in data_file:
-                line = line.decode('utf8')
                 line = line.rstrip('\r\n')
                 number_text, expected = line.split('\t')
                 number = int(number_text)

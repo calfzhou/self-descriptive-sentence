@@ -44,7 +44,7 @@ class SentenceCount(OrderedDict):
         return ', '.join(parts)
 
     def __str__(self):
-        return unicode(self).encode(sys.getfilesystemencoding())
+        return unicode(self)
 
 
 class Sentence(object):
@@ -109,7 +109,7 @@ class Sentence(object):
 
     def _inc_character(self, character):
         """
-        :type character: string
+        :type character: unicode
         """
         character_count = self._mutable_counts.get(character, 0)
         assert character_count >= 0, 'character count is negative'
@@ -123,7 +123,7 @@ class Sentence(object):
 
     def _dec_character(self, character):
         """
-        :type character: string
+        :type character: unicode
         """
         assert self._mutable_counts[character] >= 2, 'character count is < 2'
         if self._mutable_counts[character] == 2 and self._need_down_to_zero():
@@ -156,7 +156,7 @@ class SentenceGenerator(object):
                  down_to_zero=None, verbose=True):
         """
         :type language: sentence_language.SentenceLanguage
-        :type user_text: string
+        :type user_text: unicode
         :type attempts: int
         :type iterations: int
         :type down_to_zero: bool|object
@@ -200,7 +200,7 @@ class SentenceGenerator(object):
     def verify(cls, language, user_text, counts):
         """
         :type language: sentence_language.SentenceLanguage
-        :type user_text: string
+        :type user_text: unicode
         :type counts: SentenceCount
         :rtype: bool
         """
