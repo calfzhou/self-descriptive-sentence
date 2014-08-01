@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from os import path
 import unittest
-from chinese import Chinese
+from self_descriptive_sentence.chinese import Chinese
 
 
 class TestChineseNumber(unittest.TestCase):

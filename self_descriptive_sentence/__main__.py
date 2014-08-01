@@ -3,8 +3,8 @@
 from __future__ import unicode_literals, print_function
 import argparse
 import sys
-import chinese
-import number
+from chinese import Chinese
+from number import Number
 from sentence_generator import SentenceGenerator
 
 __version__ = '0.2.dev'
@@ -48,9 +48,9 @@ def main():
         down_to_zero = args.seed
 
     if args.language == 'chinese':
-        language = chinese.Chinese()
+        language = Chinese()
     elif args.language == 'number':
-        language = number.Number()
+        language = Number()
     else:
         raise ValueError('unknown language {}'.format(args.language))
 
