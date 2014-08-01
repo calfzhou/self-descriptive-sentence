@@ -7,7 +7,7 @@ import chinese
 import number
 from sentence_generator import SentenceGenerator
 
-__version__ = '0.1'
+__version__ = '0.2.dev'
 __author__ = 'calf.zhou@gmail.com'
 
 
