@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import codecs
+import sys
+
+
+def unicodefy_std_io():
+    sys.stdin = codecs.getreader(sys.stdin.encoding or sys.getfilesystemencoding())(sys.stdin)
+    sys.stdout = codecs.getwriter(sys.stdout.encoding or sys.getfilesystemencoding())(sys.stdout)
+    sys.stderr = codecs.getwriter(sys.stdout.encoding or sys.getfilesystemencoding())(sys.stderr)
 
 
 def enumerate_digits(number):

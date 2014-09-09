@@ -6,12 +6,15 @@ import sys
 from chinese import Chinese
 from number import Number
 from sentence_generator import SentenceGenerator
+import utils
 
 __version__ = '0.2.dev'
 __author__ = 'calf.zhou@gmail.com'
 
 
 def main():
+    utils.unicodefy_std_io()
+
     parser = argparse.ArgumentParser(
         description='Self-Descriptive Sentence Generator',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
